@@ -590,7 +590,7 @@ CellularError_t _Cellular_RemoveSocketData( CellularContext_t * pContext,
         LogWarn( ( "_Cellular_RemoveSocket, socket is connecting state [%u]", ( unsigned int ) socketHandle->socketId ) );
     }
 
-    taskENTER_CRITICAL();
+    PlatformEnterCritical(&pContext->crLock);
 
     if( pContext != NULL )
     {
@@ -620,7 +620,7 @@ CellularError_t _Cellular_RemoveSocketData( CellularContext_t * pContext,
         cellularStatus = CELLULAR_INVALID_HANDLE;
     }
 
-    taskEXIT_CRITICAL();
+    PlatformEnterCritical(&pContext->crLock);
 
     return cellularStatus;
 }
@@ -951,6 +951,12 @@ CellularError_t _Cellular_LibInit( CellularHandle_t * pCellularHandle,
             /* copy the token table. */
             ( void ) memcpy( &( pContext->tokenTable ), pTokenTable, sizeof( CellularTokenTable_t ) );
         }
+    }
+
+    /* Defines critical section spin-lock */
+    if ( cellularStatus == CELLULAR_SUCCESS )
+    {
+        PlatformSpinLockInit(&pContext->crLock);
     }
 
     /* Defines the Mutexes and Semaphores. */

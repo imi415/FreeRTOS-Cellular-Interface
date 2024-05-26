@@ -119,6 +119,7 @@ struct CellularContext
     PlatformMutex_t libAtDataMutex;  /**<  The mutex for AT data in cellular context. */
     _callbackEvents_t cbEvents;      /**<  Call back functions registered to report events. */
     cellularAtData_t libAtData;      /**<  Global variables. */
+    PlatformSpinLockType crLock;     /**<  Critical section spin-lock */
 
     CellularTokenTable_t tokenTable; /**<  Token table to config pkthandler and pktio. */
 
