@@ -441,7 +441,7 @@ static CellularPktStatus_t _atParseGetHandler( CellularContext_t * pContext,
                                                            ( const void * ) pTokenMap,
                                                            tokenMapSize,
                                                            sizeof( CellularAtParseTokenMap_t ),
-                                                           _searchCompareFunc );
+                                                           ( __compar_fn_t ) _searchCompareFunc );
 
     if( pElementPtr != NULL )
     {
